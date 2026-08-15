@@ -3,6 +3,7 @@ import sys
 from typing import TYPE_CHECKING
 
 from methods import detect_darwin_sdk_path, get_compiler_version, is_apple_clang, print_error, print_warning
+from misc.utility.build_deps import get_build_deps_folder
 from platform_methods import detect_arch, detect_mvk, validate_arch
 
 if TYPE_CHECKING:
@@ -27,21 +28,8 @@ def can_build():
 def get_opts():
     from SCons.Variables import BoolVariable, EnumVariable
 
-    # Dependencies folder.
-    deps_folder = os.getenv("LOCALAPPDATA")
-    if deps_folder:
-        deps_folder = os.path.join(deps_folder, "Godot", "build_deps")
-    else:
-        # Cross-compiling, the deps install script puts things in `bin`.
-        # Getting an absolute path to it is a bit hacky in Python.
-        try:
-            import inspect
-
-            caller_frame = inspect.stack()[1]
-            caller_script_dir = os.path.dirname(os.path.abspath(caller_frame[1]))
-            deps_folder = os.path.join(caller_script_dir, "bin", "build_deps")
-        except Exception:  # Give up.
-            deps_folder = ""
+    engine_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    deps_folder = get_build_deps_folder(engine_root)
 
     return [
         ("osxcross_sdk", "OSXCross SDK version", "darwin16"),

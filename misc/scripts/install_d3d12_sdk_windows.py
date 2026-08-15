@@ -12,6 +12,7 @@ import urllib.request
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../"))
 
+from misc.utility.build_deps import get_build_deps_folder
 from misc.utility.color import Ansi, color_print
 
 parser = argparse.ArgumentParser(description="Install D3D12 dependencies for Windows platforms.")
@@ -22,13 +23,8 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
-# Base Godot dependencies path
-# If cross-compiling (no LOCALAPPDATA), we install in `bin`
-deps_folder = os.getenv("LOCALAPPDATA")
-if deps_folder and not os.getenv("MSYSTEM"):
-    deps_folder = os.path.join(deps_folder, "Godot", "build_deps")
-else:
-    deps_folder = os.path.join("bin", "build_deps")
+engine_root = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../.."))
+deps_folder = get_build_deps_folder(engine_root)
 
 # Mesa NIR
 # Sync with `drivers/d3d12/SCsub` when updating Mesa.
