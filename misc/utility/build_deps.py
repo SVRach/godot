@@ -2,8 +2,8 @@ import os
 
 
 def get_build_deps_folder(engine_root: str) -> str:
-    """
-	Return the directory used by install scripts and SCons for optional SDKs.
+    """Return the directory used by install scripts and SCons for optional SDKs.
+
     Resolution order:
     1. ``GODOT_BUILD_DEPS`` if set
     2. ``<engine_root>/godot_build_deps``
