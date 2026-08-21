@@ -16,7 +16,7 @@ engine_root = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__fil
 deps_folder = get_build_deps_folder(engine_root)
 
 # AccessKit
-ac_version = "0.21.2"
+ac_version = "0.22.3"
 
 # Create dependencies folder
 if not os.path.exists(deps_folder):
